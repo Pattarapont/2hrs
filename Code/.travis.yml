@@ -1,0 +1,28 @@
+language: python
+
+# Use container-based infrastructure
+sudo: false
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+env:
+  - DJANGO=1.8.18
+  - DJANGO=1.9.13
+  - DJANGO=1.10.8
+  - DJANGO=1.11.9
+install:
+  - pip install --upgrade pip
+  - pip install .[files]
+  - pip uninstall django-spirit -y
+  - pip install -q Django==$DJANGO
+  - pip install coveralls pep8==1.5.7 flake8
+script:
+  - flake8 --exit-zero
+  - python setup.py build
+  - python ./spirit/extra/bin/spirit.py startproject project
+  - coverage run --source=. runtests.py
+after_success:
+  - coveralls

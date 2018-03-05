@@ -1,0 +1,19 @@
+version: "2.0"
+services:
+  web:
+    image: "pimmii/django"
+    container_name: "django"
+    hostname: "django"
+    command: "python /Code/forums/manage.py runserver 0.0.0.0:80"
+    volumes:
+      - "/opt/data/web/Code:/Code"
+      - "/opt/data/web/spirit:/usr/local/lib/python3.4/site-packages/spirit"
+    ports:
+      - "80:80"
+    networks:
+      - default
+networks:
+  default:
+    external:
+      name: main-network
+      
